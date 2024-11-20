@@ -29,7 +29,6 @@ public class LoginFilter implements Filter {
 
   public LoginFilter(UserService userService) {
     this.userService = userService;
-    System.out.println(123);
   }
 
 
