@@ -5,6 +5,12 @@ public class Constant {
      *  通過審核
      */
     public final static Integer SUCCESS = 200;
+
+    /**
+     *  認證失敗
+     */
+    public final static Integer JWT_ERROR = 3000;
+
     /**
      *  登入輸入資料錯誤，像是沒輸入之類
      */
@@ -21,6 +27,11 @@ public class Constant {
    *  已經有此使用者
    */
   public final static Integer REGISTER_ERROR = 3002;
+
+    /**
+     *  用戶不存在
+     */
+    public final static Integer PROFILE_NOTEXIST = 3003;
 
     /**
      *  未預料到的錯誤

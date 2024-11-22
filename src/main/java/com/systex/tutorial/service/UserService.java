@@ -6,7 +6,10 @@ import com.systex.tutorial.dto.user.RegisterForm;
 import com.systex.tutorial.dto.user.UserDTO;
 import com.systex.tutorial.entity.Users;
 import com.systex.tutorial.repository.UsersRepository;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -16,11 +19,18 @@ import java.util.Optional;
 import static com.systex.tutorial.constant.Constant.*;
 import static com.systex.tutorial.util.JwtUtil.parseSHA256;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
-  @Autowired
-  private UsersRepository usersRepository;
+  private final UsersRepository usersRepository;
+
+  @Getter
+  @Value("${jwt.key}")
+  private String jwtKey;
+  @Getter
+  @Value("${jwt.exipred}")
+  private String jwtExipred;
 
 
   public HttpResponseData register(RegisterForm form) {
@@ -62,6 +72,7 @@ public class UserService {
     Optional<Users> optUser = usersRepository.findByEmail(user.getEmail());
     // 如果此email存在就繼續檢驗密碼，沒有則失敗
     if (optUser.isPresent()) {
+      System.out.println("有資料");
       Users dbuser = optUser.get();
       String sha256Password = parseSHA256(user.getPassword());
 
@@ -73,6 +84,22 @@ public class UserService {
       }
     } else {
       return new HttpResponseData<>(LOGIN_ERROR);
+    }
+  }
+
+  public HttpResponseData profile(Integer userId) {
+    Optional<Users> optUser= usersRepository.findById(userId);
+    if(optUser.isPresent()) {
+      Users dbuser = optUser.get();
+      return new HttpResponseData<>(SUCCESS,UserDTO.builder()
+              .id(dbuser.getId())
+              .name(dbuser.getName())
+              .email(dbuser.getEmail())
+              .build()
+              );
+
+    }else {
+      return new HttpResponseData<>(PROFILE_NOTEXIST,"查無此人");
     }
   }
 

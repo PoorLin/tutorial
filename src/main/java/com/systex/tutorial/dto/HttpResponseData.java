@@ -38,4 +38,9 @@ public class HttpResponseData<T> implements Serializable {
         this.responseCode = responseCode;
         this.responseData = responseData;
     }
+
+    public HttpResponseData(Integer responseCode, String errorMsg) {
+        this.responseCode = responseCode;
+        this.errorMsg = errorMsg;
+    }
 }
