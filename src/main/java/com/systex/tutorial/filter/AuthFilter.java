@@ -28,6 +28,12 @@ public class AuthFilter implements Filter {
 
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+
+        if(request.getRequestURI().endsWith("register")){
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+
+
         String authorization=request.getHeader("Authorization");
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String token = authorization.substring(7);
