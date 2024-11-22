@@ -72,7 +72,7 @@ public class LoginFilter implements Filter {
       HttpResponseData loginResultData = userService.login(loginForm);
       if (loginResultData.getResponseCode() == 200) {// 登入成功
         Users user = (Users) loginResultData.getResponseData();
-        
+        System.out.println(1);
         String token=generateToken("token", user.getId(), Long.valueOf(userService.getJwtExipred()), userService.getJwtKey());
         HttpResponseData<LoginDTO> successData = new HttpResponseData<>(SUCCESS,new LoginDTO(token, user.getId()));
         String jsonResponse = mapper.writeValueAsString(successData);
