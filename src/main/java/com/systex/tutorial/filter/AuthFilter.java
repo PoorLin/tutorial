@@ -9,6 +9,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -16,6 +17,7 @@ import static com.systex.tutorial.constant.Constant.JWT_ERROR;
 import static com.systex.tutorial.constant.Constant.LOGIN_DATA_ERROR;
 import static com.systex.tutorial.util.JwtUtil.validToken;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AuthFilter implements Filter {
 
@@ -31,16 +33,17 @@ public class AuthFilter implements Filter {
 
         if(request.getRequestURI().endsWith("register")){
             filterChain.doFilter(servletRequest, servletResponse);
+            log.info("don't need token api");
+            return;
         }
 
 
         String authorization=request.getHeader("Authorization");
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String token = authorization.substring(7);
-        if(request.getRequestURI().endsWith("register")){
-            filterChain.doFilter(request, response);
-        }
+
         try {
+            log.info("need token api");
             Claims claims = validToken(token,userService.getJwtKey());
         }catch (JwtException e){
             ObjectMapper mapper = new ObjectMapper();
