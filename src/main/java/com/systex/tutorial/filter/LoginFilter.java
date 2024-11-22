@@ -40,19 +40,12 @@ public class LoginFilter implements Filter {
     HttpServletRequest request = (HttpServletRequest) servletRequest;
     HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-
-
-    HttpSession httpSession = request.getSession();
-    String path = request.getRequestURI();
-    String jwt = request.getHeader("Authorization");
-
       ObjectMapper mapper = new ObjectMapper();
       //處理JSON
       InputStream inputStream = request.getInputStream();
-     // System.out.println(new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
+
       LoginForm loginForm = mapper.readValue(inputStream, LoginForm.class);
-      System.out.println(loginForm);
-      //LoginForm loginForm = new LoginForm();
+
       inputStream.close();
 
       String email = loginForm.getEmail();
@@ -75,22 +68,19 @@ public class LoginFilter implements Filter {
         response.getWriter().write(jsonResponse);
         return;
       }
-      System.out.println("有近來嗎?");
       //能通過基本的驗證才進入service
       HttpResponseData loginResultData = userService.login(loginForm);
       if (loginResultData.getResponseCode() == 200) {// 登入成功
         Users user = (Users) loginResultData.getResponseData();
-
-        System.out.println("有登入成功嗎?");
+        
         String token=generateToken("token", user.getId(), Long.valueOf(userService.getJwtExipred()), userService.getJwtKey());
         HttpResponseData<LoginDTO> successData = new HttpResponseData<>(SUCCESS,new LoginDTO(token, user.getId()));
         String jsonResponse = mapper.writeValueAsString(successData);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse);
         return;
-//       response.getWriter().write(jsonResponse);
       } else { // 登入失敗
-        System.out.println("登入失敗?");
+
         String jsonResponse = mapper.writeValueAsString(loginResultData);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse);
