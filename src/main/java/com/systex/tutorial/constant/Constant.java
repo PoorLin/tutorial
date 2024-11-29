@@ -26,7 +26,7 @@ public class Constant {
    *  註冊失敗
    *  已經有此使用者
    */
-  public final static Integer REGISTER_ERROR = 3002;
+  public final static Integer REGISTER_ERROR = 3004;
 
     /**
      *  用戶不存在

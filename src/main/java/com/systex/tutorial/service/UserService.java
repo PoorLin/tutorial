@@ -37,8 +37,9 @@ public class UserService {
      Users users= new Users();
      users.setEmail(form.getEmail());
      users.setPassword(form.getPassword());
+     users.setName(form.getName());
     if (usersRepository.existsByEmail(users.getEmail())) {
-      return new HttpResponseData(SUCCESS, REGISTER_ERROR);
+      return new HttpResponseData(REGISTER_ERROR);
     }
     users.setPassword(parseSHA256(users.getPassword()));
     usersRepository.save(users);
