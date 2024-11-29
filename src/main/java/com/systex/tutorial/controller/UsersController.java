@@ -20,12 +20,17 @@ public class UsersController {
 
   @PostMapping("/register")
   public HttpResponseData register(@RequestBody RegisterForm form) {
+    if(form.getPassword() == null){
+
+    }
+
+
     return userService.register(form);
   }
 
   @GetMapping("/profile")
-  public HttpResponseData profile(@RequestParam Integer id) {
-    return userService.profile(id);
+  public HttpResponseData profile(@RequestParam Integer userId) {
+    return userService.profile(userId);
   }
 
 }

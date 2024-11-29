@@ -2,6 +2,8 @@ package com.systex.tutorial.dto.user;
 
 import lombok.*;
 
+import java.util.Date;
+
 @ToString
 @Setter
 @Getter
@@ -16,5 +18,7 @@ public class RegisterForm {
   private String password;
 
   private String confirmPassword;
+
+  private Date birthday;
   
 }

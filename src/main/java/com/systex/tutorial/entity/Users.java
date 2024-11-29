@@ -6,12 +6,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
+@ToString
 public class Users implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +27,7 @@ public class Users implements Serializable {
   private String email;
 
   private String phone;
+
+  private Date birthday;
 
 }

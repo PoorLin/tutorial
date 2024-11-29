@@ -36,7 +36,7 @@ public class FilterConfig {
     return registrationBean;
   }
 
-  @Bean
+  //@Bean
   public FilterRegistrationBean<AuthFilter> authFilter() {
     FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
     registrationBean.setFilter(new AuthFilter(userService));
