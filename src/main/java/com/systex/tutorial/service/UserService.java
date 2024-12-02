@@ -39,8 +39,10 @@ public class UserService {
         users.setPassword(form.getPassword());
         users.setName(form.getName());
         users.setBirthday(form.getBirthday());
+        if(!form.getPassword().equals(form.getConfirmPassword())) {
+            return new HttpResponseData(REGISTER_ERROR);
+        }
 
-        System.out.println(users);
         if (usersRepository.existsByEmail(users.getEmail())) {
             return new HttpResponseData(REGISTER_ERROR);
         }
@@ -48,12 +50,11 @@ public class UserService {
         usersRepository.save(users);
         return new HttpResponseData(SUCCESS);
     }
-    
+
     public HttpResponseData login(LoginForm user) {
         Optional<Users> optUser = usersRepository.findByEmail(user.getEmail());
         // 如果此email存在就繼續檢驗密碼，沒有則失敗
         if (optUser.isPresent()) {
-            System.out.println("有資料");
             Users dbuser = optUser.get();
             String sha256Password = parseSHA256(user.getPassword());
 

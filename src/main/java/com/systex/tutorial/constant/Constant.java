@@ -29,6 +29,12 @@ public class Constant {
   public final static Integer REGISTER_ERROR = 3004;
 
     /**
+     *  註冊失敗
+     *  確認密碼失敗
+     */
+    public final static Integer REGISTER_COMFIRMDATAERROR = 3005;
+
+    /**
      *  用戶不存在
      */
     public final static Integer PROFILE_NOTEXIST = 3003;
