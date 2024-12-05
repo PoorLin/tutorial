@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,6 +39,9 @@ public class UserService {
         users.setEmail(form.getEmail());
         users.setPassword(form.getPassword());
         users.setName(form.getName());
+        if(form.getBirthday() == null){
+            form.setBirthday(new Date());
+        }
         users.setBirthday(form.getBirthday());
         if(!form.getPassword().equals(form.getConfirmPassword())) {
             return new HttpResponseData(REGISTER_ERROR);
